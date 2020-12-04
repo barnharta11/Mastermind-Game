@@ -27,6 +27,8 @@ namespace Mastermind_App
             int remainingAttempts = 10;
             //setting up a string to use to compare against the string generated in the compare arrays method
             string rightAnswer = "++++";
+            //empty string for user's response
+            string response = "";
 
             //set a while loop to keep looping while there are remaining attempts (had a for loop before but changed it)
             while (remainingAttempts >= 0)
@@ -45,13 +47,38 @@ namespace Mastermind_App
 
                 //gather the users guess each attempt
                 string userGuess = Console.ReadLine();
+                //checking for empty strings or wrong formatting
+                if (string.IsNullOrEmpty(userGuess) || userGuess.Contains(','))
+                {
+                    Console.WriteLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Wrong format. Please enter 4 numbers seperated by space.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    goto Start;
+                }
 
                 //send the user's guess string to get their array of ints
                 int[] userGuessArray = mastermind.userGuessArray(userGuess);
+                //check array to make sure user guesses are between 1-6
+                for (int i = 0; i < userGuessArray.Length; i++)
+                {
+                    if (userGuessArray[i] < 1 || userGuessArray[i] > 6 )
+                    {
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Your guess: {userGuess}. Numbers need to be between 1-6. Try again.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        goto Start;
+                    }
+                    else
+                    {
+                        //send the user's guess array and computer array to a method that compares them and results in a string 
+                        response = mastermind.CompareArrays(userGuessArray, computerGuessArray);
 
-                //send the user's guess array and computer array to a method that compares them and results in a string 
-                string response = mastermind.CompareArrays(userGuessArray, computerGuessArray);
+                    }
+                }
 
+                
                 //checking to see if the user's results contain the right answer
                 if (response.Contains(rightAnswer))
                 {

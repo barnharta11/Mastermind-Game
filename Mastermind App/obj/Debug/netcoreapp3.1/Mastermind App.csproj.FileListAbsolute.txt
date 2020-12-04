@@ -11,3 +11,4 @@ C:\Users\Student\Desktop\Mastermind App\Mastermind App\obj\Debug\netcoreapp3.1\M
 C:\Users\Student\Desktop\Mastermind App\Mastermind App\obj\Debug\netcoreapp3.1\Mastermind App.csproj.CopyComplete
 C:\Users\Student\Desktop\Mastermind App\Mastermind App\obj\Debug\netcoreapp3.1\Mastermind App.dll
 C:\Users\Student\Desktop\Mastermind App\Mastermind App\obj\Debug\netcoreapp3.1\Mastermind App.pdb
+C:\Users\Student\Desktop\Mastermind App\Mastermind App\obj\Debug\netcoreapp3.1\Mastermind App.csprojAssemblyReference.cache
