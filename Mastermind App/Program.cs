@@ -33,6 +33,7 @@ namespace Mastermind_App
             //set a while loop to keep looping while there are remaining attempts (had a for loop before but changed it)
             while (remainingAttempts >= 0)
             {
+                Redo: //if a user messes up format during game
                 //different prompts for attempts
                 if (remainingAttempts == 10)
                 {
@@ -50,11 +51,20 @@ namespace Mastermind_App
                 //checking for empty strings or wrong formatting
                 if (string.IsNullOrEmpty(userGuess) || userGuess.Contains(','))
                 {
+                    if (remainingAttempts == 10)
+                    {
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Wrong format. Please enter 4 numbers seperated by space.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        goto Start;
+                    }
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Wrong format. Please enter 4 numbers seperated by space.");
                     Console.ForegroundColor = ConsoleColor.White;
-                    goto Start;
+                    goto Redo;
+
                 }
 
                 //send the user's guess string to get their array of ints
@@ -64,11 +74,19 @@ namespace Mastermind_App
                 {
                     if (userGuessArray[i] < 1 || userGuessArray[i] > 6 )
                     {
+                        if (remainingAttempts == 10)
+                        {
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Your guess: {userGuess}. Numbers need to be between 1-6. Try again.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            goto Start;
+                        }
                         Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Your guess: {userGuess}. Numbers need to be between 1-6. Try again.");
                         Console.ForegroundColor = ConsoleColor.White;
-                        goto Start;
+                        goto Redo;
                     }
                     else
                     {
