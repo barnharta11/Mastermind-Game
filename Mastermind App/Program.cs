@@ -7,44 +7,57 @@ namespace Mastermind_App
     {
         static void Main(string[] args)
         {
-
+            //new instance of Mastermind class to use in program
             Mastermind mastermind = new Mastermind();
 
-            //Print Welcome
+            //Print Instructions
             mastermind.PrintInstructions();
 
-            //bool correctGuess = true;
-            //bool validated = true;
+            //statement that keeps player in the game
             bool keepPlaying = true;
-
+            
+            //loop keeping player in the game
             while (keepPlaying)
             {
                 //Game Setup
                 int[] computerGuessArray = mastermind.ComputerArray();
+                Console.WriteLine($"Computer Numbers were ({computerGuessArray[0]}, {computerGuessArray[1]}, {computerGuessArray[2]}, {computerGuessArray[3]})");
                 int remainingAttempts = 10;
-                string rightAnswer = "++++";
-
-                while (remainingAttempts >= 0)
+                
+                //loop keeping track of attempts
+                while (remainingAttempts > 0)
                 {
+                    //asks user for guess input
                     mastermind.PrintInputGuess(remainingAttempts);
 
+                    //gathers user input
                     string userGuess = Console.ReadLine();
 
+                    //checks user guess to make sure it has correct format
                     if (mastermind.CheckGuess(remainingAttempts, userGuess) && mastermind.ValidateInput(remainingAttempts, userGuess))
                     {
+                        //if it does, it runs through CompareArrays() and results in a string of +,-, _
                         string response = mastermind.CompareArrays(computerGuessArray, userGuess);
+                        
+                        //checks for correct answer
+                        if (mastermind.CorrectAnswer(computerGuessArray, response))
+                        {
+                            //if answer is correct, it displays and then fires up PlayAgain()
+                            //sets remainingAttempts to 0 to exit second loop and refresh game if user chooses
+                            keepPlaying = mastermind.PlayAgain();
+                            remainingAttempts = 0;
+                        }
+                        else if (mastermind.OutOfTries(remainingAttempts))
+                        {
+                            //displays out of attempts and then fires up PlayAgain()
+                            //sets remainingAttempts to 0 to exit second loop and refresh game if user chooses
+                            keepPlaying = mastermind.PlayAgain();
+                            remainingAttempts = 0;
 
-                        //checking to see if the user's results contain the right answer (when I moved this to a seperate method, it wasn't subtracting attempts)
-                        if (response.Contains(rightAnswer))
-                        {
-                            mastermind.CorrectAnswer(computerGuessArray, keepPlaying, response, remainingAttempts);
                         }
-                        else if (!response.Contains(rightAnswer) && remainingAttempts == 1)
+                        else
                         {
-                            mastermind.OutOfTries(keepPlaying, remainingAttempts);
-                        }
-                        else if (!response.Contains(rightAnswer) && remainingAttempts > 1)
-                        {
+                            //displays that answer is incorrect and response string for next guess
                             remainingAttempts--;
                             mastermind.WrongAnswer(remainingAttempts, response);
                         }
@@ -52,35 +65,6 @@ namespace Mastermind_App
                     }
 
                 }
-
-
-                //Below is my attempt to follow your flow suggestions, it got stuck in an infinite loop when ran
-
-
-                /*while (keepPlaying)
-                {
-                    mastermind.PrintInputGuess(remainingAttempts);
-
-                    //Loop for Game
-                    while (remainingAttempts >= 0 && !correctGuess)
-                    {
-
-
-                        do
-                        {
-                            mastermind.GetGuess(remainingAttempts);
-                            validated = mastermind.ValidateInput(remainingAttempts);
-                        } while (!validated);
-
-                        response = mastermind.CompareArrays(computerGuessArray);
-
-                        //checking to see if the user's results contain the right answer
-                        mastermind.PrintResults(response, rightAnswer, computerGuessArray, remainingAttempts, keepPlaying);
-                        correctGuess = response.Contains(rightAnswer);
-
-                     }
-                   } */
-
 
 
             }

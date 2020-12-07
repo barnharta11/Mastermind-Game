@@ -7,11 +7,7 @@ namespace Mastermind_App
 {
     class Mastermind
     {
-        //Could I make the user guess a prop for this class and then refer to it in all the methods?
-        
-        //public string userGuess = Console.ReadLine();
-
-
+        //Game Method List:
         public void PrintInstructions()
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -31,7 +27,6 @@ namespace Mastermind_App
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\nWrong format. Please enter 4 numbers seperated by space.");
                 Console.ForegroundColor = ConsoleColor.White;
-                remainingAttempts++;
                 return false;
             }
             return true;
@@ -50,7 +45,6 @@ namespace Mastermind_App
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"\nYour guess: {userGuess}. Numbers need to be between 1-6. Try again.");
                     Console.ForegroundColor = ConsoleColor.White;
-                    remainingAttempts++;
                     return false;
                 }
 
@@ -72,85 +66,20 @@ namespace Mastermind_App
 
         }
 
-        //public bool GetGuess(int remainingAttempts)
-        //{
-        //    if (remainingAttempts == 10)
-        //    {
-
-        //        Console.Write($"\nPlease enter 4 numbers (seperated by space) to get started:");
-        //    }
-        //    else
-        //    {
-        //        Console.Write($"\nEnter your next guess:");
-        //    }
-
-        //    string userGuess = Console.ReadLine();
-        //    if (string.IsNullOrEmpty(userGuess) || userGuess.Contains(',') || !userGuess.Contains(' '))
-        //    {
-        //        Console.ForegroundColor = ConsoleColor.Red;
-        //        Console.WriteLine($"\nWrong format. Please enter 4 numbers seperated by space.");
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-        //public void PrintResults(string response, string rightAnswer, int[] computerGuessArray, int remainingAttempts/*, bool keepPlaying*/)
-        //{
-        //    if (response.Contains(rightAnswer))
-        //    {
-        //        //this is the correct answer response and asks if player wants to play again
-        //        Console.WriteLine();
-        //        Console.ForegroundColor = ConsoleColor.Green;
-        //        Console.WriteLine("***Correct!***");
-        //        Console.ForegroundColor = ConsoleColor.White;
-        //        Console.WriteLine($"Computer Numbers were ({computerGuessArray[0]}, {computerGuessArray[1]}, {computerGuessArray[2]}, {computerGuessArray[3]}) results: ({response})");
-        //        Console.WriteLine();
-        //        Console.ForegroundColor = ConsoleColor.Yellow;
-        //        Console.Write("Play again? (Y/N)");
-        //        //PlayAgain(keepPlaying);
-
-        //    }
-        //    else if (!response.Contains(rightAnswer) && remainingAttempts == 1)
-        //    {
-        //        Console.WriteLine();
-        //        Console.ForegroundColor = ConsoleColor.Red;
-        //        Console.WriteLine("***Incorrect*** ");
-        //        Console.ForegroundColor = ConsoleColor.White;
-        //        Console.Write("Sorry, out of attempts!");
-        //        Console.WriteLine();
-        //        Console.ForegroundColor = ConsoleColor.Yellow;
-        //        Console.Write("Play again? (Y/N)");
-        //        //PlayAgain(keepPlaying);
-        //    }
-        //    else if (!response.Contains(rightAnswer) && remainingAttempts > 1)
-        //    {
-        //        remainingAttempts--;
-        //        Console.WriteLine();
-        //        Console.ForegroundColor = ConsoleColor.Red;
-        //        Console.WriteLine("***Incorrect*** ");
-        //        Console.ForegroundColor = ConsoleColor.White;
-        //        Console.WriteLine($"Your results: ({response}) Remaining Attempts: {remainingAttempts}");
-        //    }
-
-        //}
-        public void PlayAgain(bool keepPlaying, int remainingAttempts)
+        
+        public bool PlayAgain()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Play again? (Y/N)");
+            Console.ForegroundColor = ConsoleColor.White;
             string playAgainW = Console.ReadLine();
             if (playAgainW.ToUpper().Contains('Y'))
             {
                 
-                remainingAttempts = 10;
-                int[] newGame = ComputerArray();
-                keepPlaying = true;
+                return true;
 
             }
-            else
-            {
-                keepPlaying = false;
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine("Thanks for playing. Goodbye!");
-
-            }
+            return false;
         }
 
         public int[] ComputerArray()
@@ -235,31 +164,36 @@ namespace Mastermind_App
             return $"{responsePlus}{responseMinus}{responseBlank}";
         }
 
-        public void CorrectAnswer(int[] computerGuessArray, bool keepPlaying, string response, int remainingAttempts)
+        public bool CorrectAnswer(int[] computerGuessArray, string response)
         {
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("***Correct!***");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"Computer Numbers were ({computerGuessArray[0]}, {computerGuessArray[1]}, {computerGuessArray[2]}, {computerGuessArray[3]}) results: ({response})");
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Play again? (Y/N)");
-            Console.ForegroundColor = ConsoleColor.White;
-            PlayAgain(keepPlaying, remainingAttempts);
+            string rightAnswer = "++++";
+            if (response.Contains(rightAnswer))
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("***Correct!***");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Computer Numbers were ({computerGuessArray[0]}, {computerGuessArray[1]}, {computerGuessArray[2]}, {computerGuessArray[3]}) results: ({response})");
+                Console.WriteLine();
+                return true;
+            }
+            return false;
         }
-        public void OutOfTries(bool keepPlaying, int remainingAttempts)
+        public bool OutOfTries(int remainingAttempts)
         {
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("***Incorrect*** ");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("Sorry, out of attempts!");
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Play again? (Y/N)");
-            Console.ForegroundColor = ConsoleColor.White;
-            PlayAgain(keepPlaying, remainingAttempts);
+            if (remainingAttempts == 1)
+            {
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("***Incorrect*** ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("Sorry, out of attempts!");
+                Console.WriteLine();
+                return true;
+            }
+            return false;
+
+
         }
 
         public void WrongAnswer(int remainingAttempts, string response)
